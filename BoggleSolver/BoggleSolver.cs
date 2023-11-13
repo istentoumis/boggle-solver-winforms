@@ -85,6 +85,17 @@ namespace BoggleSolver
             dataGridView.ClearSelection();
         }
 
+        private void InstructionsButton_Click(object sender, EventArgs e)
+        {
+            Instructions form = new Instructions();
+            form.Show();
 
+            this.Hide();
+        }
+
+        private void BoggleSolver_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

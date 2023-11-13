@@ -43,6 +43,7 @@
             button1 = new Button();
             Hint1 = new PictureBox();
             QuestionMarkToolTip = new ToolTip(components);
+            InstructionsButton = new Button();
             ((System.ComponentModel.ISupportInitialize)RefreshBoard).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Hint1).BeginInit();
@@ -59,7 +60,6 @@
             // 
             // GenerateFileText
             // 
-            GenerateFileText.Enabled = false;
             GenerateFileText.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
             GenerateFileText.Location = new Point(302, 222);
             GenerateFileText.Name = "GenerateFileText";
@@ -130,7 +130,6 @@
             // 
             // BoggleHeaderText
             // 
-            BoggleHeaderText.Enabled = false;
             BoggleHeaderText.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point);
             BoggleHeaderText.Location = new Point(302, 51);
             BoggleHeaderText.Name = "BoggleHeaderText";
@@ -189,11 +188,22 @@
             Hint1.TabStop = false;
             QuestionMarkToolTip.SetToolTip(Hint1, "Place the words manually, save & close once ready");
             // 
-            // BoggleUI
+            // InstructionsButton
+            // 
+            InstructionsButton.Location = new Point(690, 404);
+            InstructionsButton.Name = "InstructionsButton";
+            InstructionsButton.Size = new Size(82, 23);
+            InstructionsButton.TabIndex = 25;
+            InstructionsButton.Text = "Instructions";
+            InstructionsButton.UseVisualStyleBackColor = true;
+            InstructionsButton.Click += InstructionsButton_Click;
+            // 
+            // BoggleSolver
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(InstructionsButton);
             Controls.Add(Hint1);
             Controls.Add(button1);
             Controls.Add(RunBoggleButton);
@@ -206,8 +216,9 @@
             Controls.Add(RefreshBoard);
             Controls.Add(BoggleHeaderText);
             Controls.Add(dataGridView);
-            Name = "BoggleUI";
-            Text = "BoggleUI";
+            Name = "BoggleSolver";
+            Text = "BoggleSolver";
+            FormClosed += BoggleSolver_FormClosed;
             Load += BoggleBoard_Load;
             Click += BoggleUI_Click;
             ((System.ComponentModel.ISupportInitialize)RefreshBoard).EndInit();
@@ -231,5 +242,6 @@
         private Button button1;
         private PictureBox Hint1;
         private ToolTip QuestionMarkToolTip;
+        private Button InstructionsButton;
     }
 }

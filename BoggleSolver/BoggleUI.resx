@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="Hint1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        EQAACxEBf2RfkQAAgtZJREFUeF7tvQm4dNld1puv6nxDd389pbsT0oROyIhtSCCGxNtyEQ2gTDFeAXl8
+        DAAACwwBP0AiyAAAgtZJREFUeF7tvQm4dNld1puv6nxDd389pbsT0oROyIhtSCCGxNtyEQ2gTDFeAXl8
         rqAoSFAEc5V5CgpyES6DigxGZpRBrgriDYOCohhImMJkBBlE5gQyD0B7/7/yrXp27Vp777X+tU+dOue8
         v+d5Iaf2+r1rrb1P7/q+89WpesR7vMe7X4tcjTwiA558etZxXyV48t2XAE+++xLgyXdfAjz57kuAJ999
         CfDk5/qaBvfAk5+bvAeefPclwJPvvgR48t2XAE+++xLgyXdfAjz57qulaXAHPE2Wn7wDnnz3JcCT774E
@@ -682,4 +682,7 @@
         nnz3JcCT774EePLdlwBPvvsS4Mm/5H3v/oj/HyS13FoUewyuAAAAAElFTkSuQmCC
 </value>
   </data>
+  <metadata name="QuestionMarkToolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
 </root>

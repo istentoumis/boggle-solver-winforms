@@ -9,14 +9,19 @@ namespace BoggleSolver
 
         private void BoggleBoard_Load(object sender, EventArgs e)
         {
+            LoadBoard();
+        }
 
-            string[,] board = new string[,]
-            {
-                { "A", "B", "C"},
-                { "D", "E", "F"},
-                { "G", "H", "I"},
-                { "J", "K", "L"},
-            };
+        private void RefreshBoard_Click(object sender, EventArgs e)
+        {
+            LoadBoard();
+        }
+
+        private void LoadBoard()
+        {
+            this.dataGridView.Rows.Clear();
+
+            string[,] board = CreateBoard();
 
             int row = board.GetLength(0);
             int column = board.GetLength(1);
@@ -40,13 +45,46 @@ namespace BoggleSolver
             this.dataGridView.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             dataGridView.ClearSelection();
+        }
 
+        private static string[,] CreateBoard()
+        {
+            Random random = new Random();
+
+            List<string> availableLetters = new List<string>();
+
+            for (char c = 'A'; c <= 'Z'; c++)
+            {
+                availableLetters.Add(c.ToString());
+            }
+
+            string[,] board = new string[4, 3];
+
+            for (int i = 0; i < board.GetLength(0); i++)
+            {
+                for (int j = 0; j < board.GetLength(1); j++)
+                {
+                    if (availableLetters.Count == 0)
+                    {
+                        break;
+                    }
+
+                    int randomIndex = random.Next(availableLetters.Count);
+                    board[i, j] = availableLetters[randomIndex];
+
+                    // Remove the selected letter from the list
+                    availableLetters.RemoveAt(randomIndex);
+                }
+            }
+
+            return board;
         }
 
         private void BoggleUI_Click(object sender, EventArgs e)
         {
-            // Clear the selection in the DataGridView
             dataGridView.ClearSelection();
         }
+
+
     }
 }

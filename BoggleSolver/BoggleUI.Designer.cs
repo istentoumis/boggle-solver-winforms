@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BoggleUI));
             RunBoggleButton = new Button();
             GenerateFileText = new TextBox();
@@ -40,10 +41,11 @@
             BoggleHeaderText = new TextBox();
             dataGridView = new DataGridView();
             button1 = new Button();
-            pictureBox1 = new PictureBox();
+            Hint1 = new PictureBox();
+            QuestionMarkToolTip = new ToolTip(components);
             ((System.ComponentModel.ISupportInitialize)RefreshBoard).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)Hint1).BeginInit();
             SuspendLayout();
             // 
             // RunBoggleButton
@@ -124,6 +126,7 @@
             RefreshBoard.SizeMode = PictureBoxSizeMode.StretchImage;
             RefreshBoard.TabIndex = 13;
             RefreshBoard.TabStop = false;
+            RefreshBoard.Click += RefreshBoard_Click;
             // 
             // BoggleHeaderText
             // 
@@ -173,24 +176,25 @@
             button1.Text = "Generate your own txt file";
             button1.UseVisualStyleBackColor = true;
             // 
-            // pictureBox1
+            // Hint1
             // 
-            pictureBox1.BackgroundImage = Properties.Resources.redo;
-            pictureBox1.Cursor = Cursors.Hand;
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(461, 328);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(26, 26);
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox1.TabIndex = 24;
-            pictureBox1.TabStop = false;
+            Hint1.BackgroundImage = Properties.Resources.redo;
+            Hint1.Cursor = Cursors.Hand;
+            Hint1.Image = (Image)resources.GetObject("Hint1.Image");
+            Hint1.Location = new Point(461, 328);
+            Hint1.Name = "Hint1";
+            Hint1.Size = new Size(26, 26);
+            Hint1.SizeMode = PictureBoxSizeMode.StretchImage;
+            Hint1.TabIndex = 24;
+            Hint1.TabStop = false;
+            QuestionMarkToolTip.SetToolTip(Hint1, "Place the words manually, save & close once ready");
             // 
             // BoggleUI
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(pictureBox1);
+            Controls.Add(Hint1);
             Controls.Add(button1);
             Controls.Add(RunBoggleButton);
             Controls.Add(GenerateFileText);
@@ -208,7 +212,7 @@
             Click += BoggleUI_Click;
             ((System.ComponentModel.ISupportInitialize)RefreshBoard).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)Hint1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -225,6 +229,7 @@
         private TextBox BoggleHeaderText;
         private DataGridView dataGridView;
         private Button button1;
-        private PictureBox pictureBox1;
+        private PictureBox Hint1;
+        private ToolTip QuestionMarkToolTip;
     }
 }

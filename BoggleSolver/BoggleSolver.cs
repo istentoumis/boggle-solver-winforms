@@ -1,8 +1,8 @@
 namespace BoggleSolver
 {
-    public partial class BoggleUI : Form
+    public partial class BoggleSolver : Form
     {
-        public BoggleUI()
+        public BoggleSolver()
         {
             InitializeComponent();
         }

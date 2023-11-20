@@ -40,7 +40,7 @@
             RefreshBoard = new PictureBox();
             BoggleHeaderText = new TextBox();
             dataGridView = new DataGridView();
-            button1 = new Button();
+            GenerateTxtFileButton = new Button();
             Hint1 = new PictureBox();
             QuestionMarkToolTip = new ToolTip(components);
             InstructionsButton = new Button();
@@ -51,12 +51,13 @@
             // 
             // RunBoggleButton
             // 
-            RunBoggleButton.Location = new Point(313, 404);
+            RunBoggleButton.Location = new Point(264, 404);
             RunBoggleButton.Name = "RunBoggleButton";
-            RunBoggleButton.Size = new Size(119, 23);
+            RunBoggleButton.Size = new Size(222, 23);
             RunBoggleButton.TabIndex = 20;
-            RunBoggleButton.Text = "Run BoggleSolver";
+            RunBoggleButton.Text = "Run BoggleSolver for 0 words";
             RunBoggleButton.UseVisualStyleBackColor = true;
+            RunBoggleButton.Click += RunBoggleButton_Click;
             // 
             // GenerateFileText
             // 
@@ -78,6 +79,7 @@
             Button1000Words.TabIndex = 18;
             Button1000Words.Text = "1000 words";
             Button1000Words.UseVisualStyleBackColor = true;
+            Button1000Words.Click += Button1000Words_Click;
             // 
             // Button500Words
             // 
@@ -87,6 +89,7 @@
             Button500Words.TabIndex = 17;
             Button500Words.Text = "500 words";
             Button500Words.UseVisualStyleBackColor = true;
+            Button500Words.Click += Button500Words_Click;
             // 
             // Button100Words
             // 
@@ -96,6 +99,7 @@
             Button100Words.TabIndex = 16;
             Button100Words.Text = "100 words";
             Button100Words.UseVisualStyleBackColor = true;
+            Button100Words.Click += Button100Words_Click;
             // 
             // Button50Words
             // 
@@ -105,6 +109,7 @@
             Button50Words.TabIndex = 15;
             Button50Words.Text = "50 words";
             Button50Words.UseVisualStyleBackColor = true;
+            Button50Words.Click += Button50Words_Click;
             // 
             // Button10Words
             // 
@@ -114,6 +119,7 @@
             Button10Words.TabIndex = 14;
             Button10Words.Text = "10 words";
             Button10Words.UseVisualStyleBackColor = true;
+            Button10Words.Click += Button10Words_Click;
             // 
             // RefreshBoard
             // 
@@ -166,27 +172,28 @@
             dataGridView.Size = new Size(271, 79);
             dataGridView.TabIndex = 11;
             // 
-            // button1
+            // GenerateTxtFileButton
             // 
-            button1.Location = new Point(295, 328);
-            button1.Name = "button1";
-            button1.Size = new Size(160, 23);
-            button1.TabIndex = 23;
-            button1.Text = "Generate your own txt file";
-            button1.UseVisualStyleBackColor = true;
+            GenerateTxtFileButton.Location = new Point(295, 328);
+            GenerateTxtFileButton.Name = "GenerateTxtFileButton";
+            GenerateTxtFileButton.Size = new Size(160, 23);
+            GenerateTxtFileButton.TabIndex = 23;
+            GenerateTxtFileButton.Text = "Generate your own txt file";
+            GenerateTxtFileButton.UseVisualStyleBackColor = true;
+            GenerateTxtFileButton.Click += GenerateYourOwnTxtFileButton_Click;
             // 
             // Hint1
             // 
             Hint1.BackgroundImage = Properties.Resources.redo;
             Hint1.Cursor = Cursors.Hand;
             Hint1.Image = (Image)resources.GetObject("Hint1.Image");
-            Hint1.Location = new Point(461, 328);
+            Hint1.Location = new Point(461, 218);
             Hint1.Name = "Hint1";
             Hint1.Size = new Size(26, 26);
             Hint1.SizeMode = PictureBoxSizeMode.StretchImage;
             Hint1.TabIndex = 24;
             Hint1.TabStop = false;
-            QuestionMarkToolTip.SetToolTip(Hint1, "Place the words manually, save & close once ready");
+            QuestionMarkToolTip.SetToolTip(Hint1, "Save & close once ready");
             // 
             // InstructionsButton
             // 
@@ -205,7 +212,7 @@
             ClientSize = new Size(800, 450);
             Controls.Add(InstructionsButton);
             Controls.Add(Hint1);
-            Controls.Add(button1);
+            Controls.Add(GenerateTxtFileButton);
             Controls.Add(RunBoggleButton);
             Controls.Add(GenerateFileText);
             Controls.Add(Button1000Words);
@@ -239,7 +246,7 @@
         private PictureBox RefreshBoard;
         private TextBox BoggleHeaderText;
         private DataGridView dataGridView;
-        private Button button1;
+        private Button GenerateTxtFileButton;
         private PictureBox Hint1;
         private ToolTip QuestionMarkToolTip;
         private Button InstructionsButton;

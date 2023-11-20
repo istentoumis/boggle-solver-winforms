@@ -1,5 +1,7 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
+using System.Windows.Forms.VisualStyles;
 
 namespace BoggleSolver
 {
@@ -8,10 +10,12 @@ namespace BoggleSolver
         private const string filePath = "Dictionary.txt";
         private static readonly int selectedWords = 0;
         private static Random random = new Random();
+        private string[] dictionary;
 
         public BoggleSolver()
         {
             InitializeComponent();
+            this.dictionary = new string[selectedWords];
         }
 
         #region Board
@@ -97,45 +101,50 @@ namespace BoggleSolver
 
         #region Buttons
 
-        private void GenerateYourOwnTxtFileButton_Click(object sender, EventArgs e)
+        private void GenerateYourOwnDictionaryFileButton_Click(object sender, EventArgs e)
         {
-            Task.Run(async () => await OpenTxtFile(filePath, 0));
-            DeleteTxtContent(filePath);
+            Task.Run(async () => await OpenDictionary(filePath, 0));
+            DeleteDictionaryContent(filePath);
         }
 
         private void Button10Words_Click(object sender, EventArgs e)
         {
-            Task.Run(async () => await OpenTxtFile(filePath, 10));
-            WriteRandomWordsToTxt(filePath, 10);
+            Task.Run(async () => await OpenDictionary(filePath, 10));
+            WriteRandomWordsToDictionary(filePath, 10);
             UpdateRunBoggleButtonText(10);
+            dictionary = GetWordsFromDictionary(filePath);
         }
 
         private void Button50Words_Click(object sender, EventArgs e)
         {
-            Task.Run(async () => await OpenTxtFile(filePath, 50));
-            WriteRandomWordsToTxt(filePath, 50);
+            Task.Run(async () => await OpenDictionary(filePath, 50));
+            WriteRandomWordsToDictionary(filePath, 50);
             UpdateRunBoggleButtonText(50);
+            dictionary = GetWordsFromDictionary(filePath);
         }
 
         private void Button100Words_Click(object sender, EventArgs e)
         {
-            Task.Run(async () => await OpenTxtFile(filePath, 100));
-            WriteRandomWordsToTxt(filePath, 100);
+            Task.Run(async () => await OpenDictionary(filePath, 100));
+            WriteRandomWordsToDictionary(filePath, 100);
             UpdateRunBoggleButtonText(100);
+            dictionary = GetWordsFromDictionary(filePath);
         }
 
         private void Button500Words_Click(object sender, EventArgs e)
         {
-            Task.Run(async () => await OpenTxtFile(filePath, 500));
-            WriteRandomWordsToTxt(filePath, 500);
+            Task.Run(async () => await OpenDictionary(filePath, 500));
+            WriteRandomWordsToDictionary(filePath, 500);
             UpdateRunBoggleButtonText(500);
+            dictionary = GetWordsFromDictionary(filePath);
         }
 
         private void Button1000Words_Click(object sender, EventArgs e)
         {
-            Task.Run(async () => await OpenTxtFile(filePath, 1000));
-            WriteRandomWordsToTxt(filePath, 1000);
+            Task.Run(async () => await OpenDictionary(filePath, 1000));
+            WriteRandomWordsToDictionary(filePath, 1000);
             UpdateRunBoggleButtonText(1000);
+            dictionary = GetWordsFromDictionary(filePath);
         }
 
         private void InstructionsButton_Click(object sender, EventArgs e)
@@ -156,12 +165,39 @@ namespace BoggleSolver
 
         #endregion
 
-        private void UpdateRunBoggleButtonText(int selectedWords)
+        private async Task OpenDictionary(string filePath, int selectedWords)
         {
-            RunBoggleButton.Text = $"Run BoggleSolver for {selectedWords} words";
+            Hide();
+            if (!File.Exists(filePath))
+            {
+                File.Create(filePath).Close(); // Create the file and immediately close it
+
+            }
+
+            try
+            {
+                Process? process = Process.Start(new ProcessStartInfo
+                {
+                    FileName = filePath,
+                    UseShellExecute = true //use default text editor 
+                });
+                if (process != null)
+                {
+                    await process?.WaitForExitAsync();
+                }
+
+
+                Show();
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine("Cannot open text editor.");
+            }
+
+
         }
 
-        private static void WriteRandomWordsToTxt(string filePath, int selectedWords)
+        private static void WriteRandomWordsToDictionary(string filePath, int selectedWords)
         {
             string[] words = new string[selectedWords];
 
@@ -178,7 +214,7 @@ namespace BoggleSolver
             File.WriteAllLines(filePath, words);
         }
 
-        private static void DeleteTxtContent(string filePath)
+        private static void DeleteDictionaryContent(string filePath)
         {
             try
             {
@@ -192,43 +228,27 @@ namespace BoggleSolver
             }
         }
 
-        private async Task OpenTxtFile(string filePath, int selectedWords)
+        private static string[] GetWordsFromDictionary(string filePath)
         {
-            Hide();
-            if (!File.Exists(filePath))
-            {
-                File.Create(filePath).Close(); // Create the file and immediately close it
-                
-            }
+            List<string> allWords = new List<string>();
 
-            try
+            foreach (string line in File.ReadLines(filePath))
             {
-                Process? process = Process.Start(new ProcessStartInfo
-                {
-                    FileName = filePath,
-                    UseShellExecute = true //use default text editor 
-                });
-                if (process != null)
-                {
-                    await process?.WaitForExitAsync();
-                }
-
-                
-                Show();
+                string[] words = Regex.Split(line, @"\s+");
+                allWords.AddRange(words);
             }
-            catch (NullReferenceException)
-            {
-                Console.WriteLine("Cannot open text editor.");
-            }
+            return allWords.ToArray();
+        }
 
-            
+        private void UpdateRunBoggleButtonText(int selectedWords)
+        {
+            RunBoggleButton.Text = $"Run BoggleSolver for {selectedWords} words";
         }
 
         private void BoggleSolver_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
         }
-
 
     }
 }

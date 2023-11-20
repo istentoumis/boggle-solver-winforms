@@ -68,7 +68,7 @@
             GenerateFileText.Size = new Size(153, 22);
             GenerateFileText.TabIndex = 19;
             GenerateFileText.TabStop = false;
-            GenerateFileText.Text = "Generate a txt file with:";
+            GenerateFileText.Text = "Generate a Dictionary with:";
             GenerateFileText.TextAlign = HorizontalAlignment.Center;
             // 
             // Button1000Words
@@ -174,13 +174,13 @@
             // 
             // GenerateTxtFileButton
             // 
-            GenerateTxtFileButton.Location = new Point(295, 328);
+            GenerateTxtFileButton.Location = new Point(288, 328);
             GenerateTxtFileButton.Name = "GenerateTxtFileButton";
-            GenerateTxtFileButton.Size = new Size(160, 23);
+            GenerateTxtFileButton.Size = new Size(182, 23);
             GenerateTxtFileButton.TabIndex = 23;
-            GenerateTxtFileButton.Text = "Generate your own txt file";
+            GenerateTxtFileButton.Text = "Generate your own Dictionary";
             GenerateTxtFileButton.UseVisualStyleBackColor = true;
-            GenerateTxtFileButton.Click += GenerateYourOwnTxtFileButton_Click;
+            GenerateTxtFileButton.Click += GenerateYourOwnDictionaryFileButton_Click;
             // 
             // Hint1
             // 

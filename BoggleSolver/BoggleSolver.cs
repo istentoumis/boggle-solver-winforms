@@ -168,14 +168,30 @@ namespace BoggleSolver
             }
         }
 
-
-
         #endregion
+
+        #region BoggleSolver
+
         private void RunBoggleSolver()
         {
             dictionary = GetWordsFromDictionary(filePath);
-            MessageBox.Show(dictionary[1]);
+
         }
+
+        private static string[] GetWordsFromDictionary(string filePath)
+        {
+            List<string> allWords = new List<string>();
+
+            foreach (string line in File.ReadLines(filePath))
+            {
+                string[] words = Regex.Split(line, @"\s+");
+                allWords.AddRange(words);
+            }
+            return allWords.ToArray();
+        }
+
+        #endregion
+
         private async Task OpenDictionary(string filePath)
         {
             Hide();
@@ -203,7 +219,7 @@ namespace BoggleSolver
 
 
         }
-
+        
         private static void WriteRandomWordsToDictionary(string filePath, int selectedWords)
         {
             string[] words = new string[selectedWords];
@@ -232,18 +248,6 @@ namespace BoggleSolver
             {
                 Console.WriteLine($"Error deleting file content: {ex.Message}");
             }
-        }
-
-        private static string[] GetWordsFromDictionary(string filePath)
-        {
-            List<string> allWords = new List<string>();
-
-            foreach (string line in File.ReadLines(filePath))
-            {
-                string[] words = Regex.Split(line, @"\s+");
-                allWords.AddRange(words);
-            }
-            return allWords.ToArray();
         }
 
         private void UpdateRunBoggleButtonText(int selectedWords)

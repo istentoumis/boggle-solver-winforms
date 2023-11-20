@@ -8,7 +8,7 @@ namespace BoggleSolver
     public partial class BoggleSolver : Form
     {
         private const string filePath = "Dictionary.txt";
-        private static readonly int selectedWords = 0;
+        private static int selectedWords = 0;
         private static Random random = new Random();
         private string[] dictionary;
 
@@ -103,48 +103,48 @@ namespace BoggleSolver
 
         private void GenerateYourOwnDictionaryFileButton_Click(object sender, EventArgs e)
         {
-            Task.Run(async () => await OpenDictionary(filePath, 0));
-            DeleteDictionaryContent(filePath);
+            Task.Run(async () => await OpenDictionary(filePath));
         }
 
         private void Button10Words_Click(object sender, EventArgs e)
         {
-            Task.Run(async () => await OpenDictionary(filePath, 10));
-            WriteRandomWordsToDictionary(filePath, 10);
+            selectedWords = 10;
+            Task.Run(async () => await OpenDictionary(filePath));
+            WriteRandomWordsToDictionary(filePath, selectedWords);
             UpdateRunBoggleButtonText(10);
-            dictionary = GetWordsFromDictionary(filePath);
         }
 
         private void Button50Words_Click(object sender, EventArgs e)
         {
-            Task.Run(async () => await OpenDictionary(filePath, 50));
-            WriteRandomWordsToDictionary(filePath, 50);
+            selectedWords = 50;
+            Task.Run(async () => await OpenDictionary(filePath));
+            WriteRandomWordsToDictionary(filePath, selectedWords);
             UpdateRunBoggleButtonText(50);
-            dictionary = GetWordsFromDictionary(filePath);
         }
 
         private void Button100Words_Click(object sender, EventArgs e)
         {
-            Task.Run(async () => await OpenDictionary(filePath, 100));
-            WriteRandomWordsToDictionary(filePath, 100);
+            selectedWords = 100;
+            Task.Run(async () => await OpenDictionary(filePath));
+            WriteRandomWordsToDictionary(filePath, selectedWords);
             UpdateRunBoggleButtonText(100);
-            dictionary = GetWordsFromDictionary(filePath);
         }
 
         private void Button500Words_Click(object sender, EventArgs e)
         {
-            Task.Run(async () => await OpenDictionary(filePath, 500));
-            WriteRandomWordsToDictionary(filePath, 500);
+            selectedWords = 500;
+            Task.Run(async () => await OpenDictionary(filePath));
+            WriteRandomWordsToDictionary(filePath, selectedWords);
             UpdateRunBoggleButtonText(500);
-            dictionary = GetWordsFromDictionary(filePath);
         }
 
         private void Button1000Words_Click(object sender, EventArgs e)
         {
-            Task.Run(async () => await OpenDictionary(filePath, 1000));
-            WriteRandomWordsToDictionary(filePath, 1000);
+            selectedWords = 1000;
+            Task.Run(async () => await OpenDictionary(filePath));
+            WriteRandomWordsToDictionary(filePath, selectedWords);
             UpdateRunBoggleButtonText(1000);
-            dictionary = GetWordsFromDictionary(filePath);
+            
         }
 
         private void InstructionsButton_Click(object sender, EventArgs e)
@@ -160,18 +160,29 @@ namespace BoggleSolver
             if (selectedWords == 0)
             {
                 MessageBox.Show("Cannot execute with 0 words");
+
+            }
+            else
+            {
+                RunBoggleSolver();
             }
         }
 
-        #endregion
 
-        private async Task OpenDictionary(string filePath, int selectedWords)
+
+        #endregion
+        private void RunBoggleSolver()
+        {
+            dictionary = GetWordsFromDictionary(filePath);
+            MessageBox.Show(dictionary[1]);
+        }
+        private async Task OpenDictionary(string filePath)
         {
             Hide();
             if (!File.Exists(filePath))
             {
                 File.Create(filePath).Close(); // Create the file and immediately close it
-
+                DeleteDictionaryContent(filePath);
             }
 
             try
@@ -181,12 +192,8 @@ namespace BoggleSolver
                     FileName = filePath,
                     UseShellExecute = true //use default text editor 
                 });
-                if (process != null)
-                {
-                    await process?.WaitForExitAsync();
-                }
 
-
+                await process?.WaitForExitAsync();
                 Show();
             }
             catch (NullReferenceException)
@@ -220,7 +227,6 @@ namespace BoggleSolver
             {
                 // Overwrite the file with an empty string
                 File.WriteAllText(filePath, string.Empty);
-                Console.WriteLine($"Content of {filePath} deleted.");
             }
             catch (IOException ex)
             {
@@ -247,6 +253,7 @@ namespace BoggleSolver
 
         private void BoggleSolver_FormClosed(object sender, FormClosedEventArgs e)
         {
+            DeleteDictionaryContent(filePath);
             Application.Exit();
         }
 

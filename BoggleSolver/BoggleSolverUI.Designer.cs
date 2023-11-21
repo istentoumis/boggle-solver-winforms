@@ -1,6 +1,6 @@
 ﻿namespace BoggleSolver
 {
-    partial class BoggleSolver
+    partial class BoggleSolverUI
     {
         /// <summary>
         ///  Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BoggleSolver));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BoggleSolverUI));
             RunBoggleButton = new Button();
             GenerateFileText = new TextBox();
             Button1000Words = new Button();

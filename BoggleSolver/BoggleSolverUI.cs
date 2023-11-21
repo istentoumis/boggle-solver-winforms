@@ -5,14 +5,16 @@ using System.Windows.Forms.VisualStyles;
 
 namespace BoggleSolver
 {
-    public partial class BoggleSolver : Form
+    public partial class BoggleSolverUI : Form
     {
         private const string filePath = "Dictionary.txt";
         private static int selectedWords = 0;
         private static Random random = new Random();
         private string[] dictionary;
+        readonly Solver s = new();
+        char[,] board = new char[4, 3];
 
-        public BoggleSolver()
+        public BoggleSolverUI()
         {
             InitializeComponent();
             this.dictionary = new string[selectedWords];
@@ -28,7 +30,7 @@ namespace BoggleSolver
         {
             this.dataGridView.Rows.Clear();
 
-            string[,] board = CreateBoard();
+            board = CreateBoard();
 
             int row = board.GetLength(0);
             int column = board.GetLength(1);
@@ -54,18 +56,16 @@ namespace BoggleSolver
             dataGridView.ClearSelection();
         }
 
-        private static string[,] CreateBoard()
+        private char[,] CreateBoard()
         {
             Random random = new Random();
 
-            List<string> availableLetters = new List<string>();
+            List<char> availableLetters = new List<char>();
 
             for (char c = 'A'; c <= 'Z'; c++)
             {
-                availableLetters.Add(c.ToString());
+                availableLetters.Add(c);
             }
-
-            string[,] board = new string[4, 3];
 
             for (int i = 0; i < board.GetLength(0); i++)
             {
@@ -83,8 +83,8 @@ namespace BoggleSolver
                     availableLetters.RemoveAt(randomIndex);
                 }
             }
-
             return board;
+            
         }
 
         private void RefreshBoard_Click(object sender, EventArgs e)
@@ -149,7 +149,7 @@ namespace BoggleSolver
 
         private void InstructionsButton_Click(object sender, EventArgs e)
         {
-            Instructions form = new Instructions();
+            InstructionsUI form = new InstructionsUI();
             form.Show();
 
             this.Hide();
@@ -175,7 +175,22 @@ namespace BoggleSolver
         private void RunBoggleSolver()
         {
             dictionary = GetWordsFromDictionary(filePath);
+            s.BuildTrie(dictionary);
+            s.FindWords(board);
+            PrintFoundWords(s);
+        }
 
+        private static void PrintFoundWords(Solver s)
+        {  
+            if (s.foundWords.Count == 0)
+            {
+                MessageBox.Show("Could not found any words");
+            }
+            else
+            {
+                string message = "The found words are:\n" + string.Join("\n", s.foundWords);
+                MessageBox.Show(message);
+            }
         }
 
         private static string[] GetWordsFromDictionary(string filePath)

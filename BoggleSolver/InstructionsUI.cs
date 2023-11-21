@@ -11,9 +11,9 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace BoggleSolver
 {
-    public partial class Instructions : Form
+    public partial class InstructionsUI : Form
     {
-        public Instructions()
+        public InstructionsUI()
         {
             InitializeComponent();
         }
@@ -21,7 +21,7 @@ namespace BoggleSolver
         private void BackButton_Click(object sender, EventArgs e)
         {
 
-            BoggleSolver boggleSolver = new BoggleSolver();
+            BoggleSolverUI boggleSolver = new BoggleSolverUI();
             boggleSolver.Show();
             this.Hide();
         }

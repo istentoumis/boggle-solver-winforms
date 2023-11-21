@@ -1,6 +1,6 @@
 ﻿namespace BoggleSolver
 {
-    partial class Instructions
+    partial class InstructionsUI
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Instructions));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InstructionsUI));
             contextMenuStrip1 = new ContextMenuStrip(components);
             InstructionsText = new TextBox();
             BackButton = new Button();

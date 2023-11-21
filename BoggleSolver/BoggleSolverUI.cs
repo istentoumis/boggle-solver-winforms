@@ -13,6 +13,7 @@ namespace BoggleSolver
         private string[] dictionary;
         readonly Solver s = new();
         char[,] board = new char[4, 3];
+        private int wordCount;
 
         public BoggleSolverUI()
         {
@@ -104,6 +105,8 @@ namespace BoggleSolver
         private void GenerateYourOwnDictionaryFileButton_Click(object sender, EventArgs e)
         {
             Task.Run(async () => await OpenDictionary(filePath));
+            //DeleteDictionaryContent(filePath);
+            wordCount = CountWordsfromDictionary(filePath);
         }
 
         private void Button10Words_Click(object sender, EventArgs e)
@@ -111,7 +114,6 @@ namespace BoggleSolver
             selectedWords = 10;
             Task.Run(async () => await OpenDictionary(filePath));
             WriteRandomWordsToDictionary(filePath, selectedWords);
-            UpdateRunBoggleButtonText(10);
         }
 
         private void Button50Words_Click(object sender, EventArgs e)
@@ -119,7 +121,6 @@ namespace BoggleSolver
             selectedWords = 50;
             Task.Run(async () => await OpenDictionary(filePath));
             WriteRandomWordsToDictionary(filePath, selectedWords);
-            UpdateRunBoggleButtonText(50);
         }
 
         private void Button100Words_Click(object sender, EventArgs e)
@@ -127,7 +128,6 @@ namespace BoggleSolver
             selectedWords = 100;
             Task.Run(async () => await OpenDictionary(filePath));
             WriteRandomWordsToDictionary(filePath, selectedWords);
-            UpdateRunBoggleButtonText(100);
         }
 
         private void Button500Words_Click(object sender, EventArgs e)
@@ -135,7 +135,6 @@ namespace BoggleSolver
             selectedWords = 500;
             Task.Run(async () => await OpenDictionary(filePath));
             WriteRandomWordsToDictionary(filePath, selectedWords);
-            UpdateRunBoggleButtonText(500);
         }
 
         private void Button1000Words_Click(object sender, EventArgs e)
@@ -143,8 +142,6 @@ namespace BoggleSolver
             selectedWords = 1000;
             Task.Run(async () => await OpenDictionary(filePath));
             WriteRandomWordsToDictionary(filePath, selectedWords);
-            UpdateRunBoggleButtonText(1000);
-            
         }
 
         private void InstructionsButton_Click(object sender, EventArgs e)
@@ -195,14 +192,9 @@ namespace BoggleSolver
 
         private static string[] GetWordsFromDictionary(string filePath)
         {
-            List<string> allWords = new List<string>();
-
-            foreach (string line in File.ReadLines(filePath))
-            {
-                string[] words = Regex.Split(line, @"\s+");
-                allWords.AddRange(words);
-            }
-            return allWords.ToArray();
+            string content = File.ReadAllText(filePath);
+            string[] words = content.Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+            return words;
         }
 
         #endregion
@@ -213,7 +205,6 @@ namespace BoggleSolver
             if (!File.Exists(filePath))
             {
                 File.Create(filePath).Close(); // Create the file and immediately close it
-                DeleteDictionaryContent(filePath);
             }
 
             try
@@ -226,15 +217,29 @@ namespace BoggleSolver
 
                 await process?.WaitForExitAsync();
                 Show();
+
+                wordCount = CountWordsfromDictionary(filePath);
+                UpdateRunBoggleButtonText(wordCount);
+
             }
             catch (NullReferenceException)
             {
                 Console.WriteLine("Cannot open text editor.");
             }
-
-
         }
-        
+
+        private static int CountWordsfromDictionary(string filePath)
+        {
+            // Read the contents of the file
+            string content = File.ReadAllText(filePath);
+
+            // Split the content into words using whitespace as separators
+            string[] words = content.Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+
+            // Count the number of words
+            return words.Length;
+        }
+
         private static void WriteRandomWordsToDictionary(string filePath, int selectedWords)
         {
             string[] words = new string[selectedWords];
@@ -265,9 +270,9 @@ namespace BoggleSolver
             }
         }
 
-        private void UpdateRunBoggleButtonText(int selectedWords)
+        private void UpdateRunBoggleButtonText(int wordCount)
         {
-            RunBoggleButton.Text = $"Run BoggleSolver for {selectedWords} words";
+            RunBoggleButton.Text = $"Run BoggleSolver for {wordCount} words";
         }
 
         private void BoggleSolver_FormClosed(object sender, FormClosedEventArgs e)

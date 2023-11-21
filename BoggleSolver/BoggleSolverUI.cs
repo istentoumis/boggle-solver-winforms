@@ -1,7 +1,4 @@
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
-using System.Windows.Forms.VisualStyles;
 
 namespace BoggleSolver
 {
@@ -10,8 +7,7 @@ namespace BoggleSolver
         private const string filePath = "Dictionary.txt";
         private static int selectedWords = 0;
         private static Random random = new Random();
-        private string[] dictionary;
-        readonly Solver s = new();
+        public string[] dictionary;
         char[,] board = new char[4, 3];
         private int wordCount;
 
@@ -105,8 +101,7 @@ namespace BoggleSolver
         private void GenerateYourOwnDictionaryFileButton_Click(object sender, EventArgs e)
         {
             Task.Run(async () => await OpenDictionary(filePath));
-            //DeleteDictionaryContent(filePath);
-            wordCount = CountWordsfromDictionary(filePath);
+            DeleteDictionaryContent(filePath);
         }
 
         private void Button10Words_Click(object sender, EventArgs e)
@@ -161,43 +156,13 @@ namespace BoggleSolver
             }
             else
             {
-                RunBoggleSolver();
+                Solver.RunBoggleSolver(dictionary,filePath, board);
             }
         }
 
         #endregion
 
-        #region BoggleSolver
-
-        private void RunBoggleSolver()
-        {
-            dictionary = GetWordsFromDictionary(filePath);
-            s.BuildTrie(dictionary);
-            s.FindWords(board);
-            PrintFoundWords(s);
-        }
-
-        private static void PrintFoundWords(Solver s)
-        {  
-            if (s.foundWords.Count == 0)
-            {
-                MessageBox.Show("Could not found any words");
-            }
-            else
-            {
-                string message = "The found words are:\n" + string.Join("\n", s.foundWords);
-                MessageBox.Show(message);
-            }
-        }
-
-        private static string[] GetWordsFromDictionary(string filePath)
-        {
-            string content = File.ReadAllText(filePath);
-            string[] words = content.Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-            return words;
-        }
-
-        #endregion
+        #region Dictionary
 
         private async Task OpenDictionary(string filePath)
         {
@@ -220,7 +185,6 @@ namespace BoggleSolver
 
                 wordCount = CountWordsfromDictionary(filePath);
                 UpdateRunBoggleButtonText(wordCount);
-
             }
             catch (NullReferenceException)
             {
@@ -270,12 +234,14 @@ namespace BoggleSolver
             }
         }
 
+        #endregion
+
         private void UpdateRunBoggleButtonText(int wordCount)
         {
             RunBoggleButton.Text = $"Run BoggleSolver for {wordCount} words";
         }
 
-        private void BoggleSolver_FormClosed(object sender, FormClosedEventArgs e)
+        private void OnFormClosed(object sender, FormClosedEventArgs e)
         {
             DeleteDictionaryContent(filePath);
             Application.Exit();

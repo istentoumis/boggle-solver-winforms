@@ -225,7 +225,7 @@
             Controls.Add(dataGridView);
             Name = "BoggleSolver";
             Text = "BoggleSolver";
-            FormClosed += BoggleSolver_FormClosed;
+            FormClosed += OnFormClosed;
             Load += BoggleBoard_Load;
             Click += BoggleUI_Click;
             ((System.ComponentModel.ISupportInitialize)RefreshBoard).EndInit();

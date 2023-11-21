@@ -1,24 +1,48 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace BoggleSolver
 {
     public class Solver
     {
-        public Node root;
-        public List<string> foundWords = new List<string>();
+        public static Node root = new('^');
+        public static List<string> foundWords = new List<string>();
 
-        public Solver()
+        #region Solver
+
+        public static void RunBoggleSolver(string[] dictionary, string filePath, char[,] board)
         {
-            root = new Node('^');
+            dictionary = GetWordsFromDictionary(filePath);
+            BuildTrie(dictionary);
+            FindWords(board);
+            PrintFoundWords();
+            foundWords.Clear();
         }
 
+        private static string[] GetWordsFromDictionary(string filePath)
+        {
+            string content = File.ReadAllText(filePath);
+            string[] words = content.Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+            return words;
+        }
+
+        private static void PrintFoundWords()
+        {
+            if (foundWords.Count == 0)
+            {
+                MessageBox.Show("Could not found any words");
+            }
+            else
+            {
+                string message = "The found words are:\n" + string.Join("\n", foundWords);
+                MessageBox.Show(message);
+            }
+        }
+
+        #endregion
+
         #region Trie
-        public void BuildTrie(string[] dictionary)
+        public static void BuildTrie(string[] dictionary)
         {
             foreach (string word in dictionary)
             {
@@ -26,7 +50,8 @@ namespace BoggleSolver
             }
         }
 
-        public void InsertWordToTrie(string word)
+
+        public static void InsertWordToTrie(string word)
         {
             Node node = root;
 
@@ -42,12 +67,13 @@ namespace BoggleSolver
 
             node.isEndOfWord = true;
         }
+
         #endregion
 
         #region DFS 
 
         // Explore the board with Depth-First-Search
-        public List<string> FindWords(char[,] board)
+        public static List<string> FindWords(char[,] board)
         {
 
             int row = board.GetLength(0);
@@ -64,7 +90,7 @@ namespace BoggleSolver
             return foundWords;
         }
 
-        private void DFS(char[,] board, int currentRow, int currentColumn, string currentWord, bool[,] visited, Node node, List<string> foundWords)
+        private static void DFS(char[,] board, int currentRow, int currentColumn, string currentWord, bool[,] visited, Node node, List<string> foundWords)
         {
             int rows = board.GetLength(0);
             int columns = board.GetLength(1);
@@ -98,7 +124,7 @@ namespace BoggleSolver
             visited[currentRow, currentColumn] = false;
         }
 
-        private Node GetNextNode(Node node, char currentChar, string currentWord)
+        private static Node GetNextNode(Node node, char currentChar, string currentWord)
         {
             Node nextNode = node.children[currentChar];
 

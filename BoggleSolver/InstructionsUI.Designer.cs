@@ -97,7 +97,6 @@
             ForeColor = SystemColors.ButtonFace;
             Name = "Instructions";
             Text = "Instructions";
-            FormClosed += Instructions_FormClosed;
             Load += Instructions_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();

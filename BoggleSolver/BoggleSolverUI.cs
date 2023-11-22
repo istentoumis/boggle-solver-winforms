@@ -1,4 +1,6 @@
+using BoggleSolver.Properties;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace BoggleSolver
 {
@@ -10,11 +12,13 @@ namespace BoggleSolver
         public string[] dictionary;
         char[,] board = new char[4, 3];
         private int wordCount;
+        private readonly InstructionsUI instructionsUI;
 
         public BoggleSolverUI()
         {
             InitializeComponent();
             this.dictionary = new string[selectedWords];
+            instructionsUI = new InstructionsUI(this);
         }
 
         #region Board
@@ -141,10 +145,8 @@ namespace BoggleSolver
 
         private void InstructionsButton_Click(object sender, EventArgs e)
         {
-            InstructionsUI form = new InstructionsUI();
-            form.Show();
-
-            this.Hide();
+            instructionsUI.Show();
+            DisableButtons();
         }
 
         private void RunBoggleButton_Click(object sender, EventArgs e)
@@ -166,7 +168,7 @@ namespace BoggleSolver
 
         private async Task OpenDictionary(string filePath)
         {
-            Hide();
+            DisableButtons();
             if (!File.Exists(filePath))
             {
                 File.Create(filePath).Close(); // Create the file and immediately close it
@@ -181,10 +183,10 @@ namespace BoggleSolver
                 });
 
                 await process?.WaitForExitAsync();
-                Show();
 
                 wordCount = CountWordsfromDictionary(filePath);
                 UpdateRunBoggleButtonText(wordCount);
+                EnableButtons();
             }
             catch (NullReferenceException)
             {
@@ -255,6 +257,28 @@ namespace BoggleSolver
 
         #endregion
 
+        private void DisableButtons()
+        {
+            foreach (Control control in Controls)
+            {
+                if (control is Button button)
+                {
+                    button.Enabled = false;
+                }
+            }
+        }
+
+        public void EnableButtons()
+        {
+            foreach (Control control in Controls)
+            {
+                if (control is Button button)
+                {
+                    button.Enabled = true;
+                }
+            }
+        }
+
         private void UpdateRunBoggleButtonText(int wordCount)
         {
             RunBoggleButton.Text = $"Run BoggleSolver for {wordCount} words";
@@ -262,7 +286,6 @@ namespace BoggleSolver
 
         private void OnFormClosed(object sender, FormClosedEventArgs e)
         {
-            DeleteDictionaryContent(filePath);
             Application.Exit();
         }
 

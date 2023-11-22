@@ -8,32 +8,34 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Button = System.Windows.Forms.Button;
 
 namespace BoggleSolver
 {
     public partial class InstructionsUI : Form
     {
-        public InstructionsUI()
+        private readonly BoggleSolverUI boggleUI;
+
+        public InstructionsUI(BoggleSolverUI boggleUI)
         {
             InitializeComponent();
-        }
+            this.boggleUI = boggleUI;
 
-        private void BackButton_Click(object sender, EventArgs e)
-        {
-
-            BoggleSolverUI boggleSolver = new BoggleSolverUI();
-            boggleSolver.Show();
-            this.Hide();
-        }
-
-        private void Instructions_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Application.Exit();
+            // Hide close, minimize, and maximize buttons
+            this.ControlBox = false;
+            this.MinimizeBox = false;
+            this.MaximizeBox = false;
         }
 
         private void Instructions_Load(object sender, EventArgs e)
         {
             InstructionsText.TabStop = false;
+        }
+
+        private void BackButton_Click(object sender, EventArgs e)
+        {
+            boggleUI.EnableButtons();
+            this.Hide();
         }
     }
 }

@@ -6,11 +6,11 @@ namespace BoggleSolver
 {
     public partial class BoggleSolverUI : Form
     {
+        public string[] dictionary;
+        public char[,] board = new char[4, 3];
         private const string filePath = "Dictionary.txt";
         private static int selectedWords = 0;
-        private static Random random = new Random();
-        public string[] dictionary;
-        char[,] board = new char[4, 3];
+        private readonly static Random random = new();
         private int wordCount;
         private readonly InstructionsUI instructionsUI;
 
@@ -151,7 +151,7 @@ namespace BoggleSolver
 
         private void RunBoggleButton_Click(object sender, EventArgs e)
         {
-            if (selectedWords == 0)
+            if (wordCount == 0)
             {
                 MessageBox.Show("Cannot execute with 0 words");
 
@@ -183,7 +183,7 @@ namespace BoggleSolver
                 });
 
                 await process?.WaitForExitAsync();
-
+                
                 wordCount = CountWordsfromDictionary(filePath);
                 UpdateRunBoggleButtonText(wordCount);
                 EnableButtons();

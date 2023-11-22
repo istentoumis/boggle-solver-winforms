@@ -21,7 +21,6 @@ namespace BoggleSolver
             InitializeComponent();
             this.boggleUI = boggleUI;
 
-            // Hide close, minimize, and maximize buttons
             this.ControlBox = false;
             this.MinimizeBox = false;
             this.MaximizeBox = false;

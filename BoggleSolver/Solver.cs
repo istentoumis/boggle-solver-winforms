@@ -5,8 +5,8 @@ namespace BoggleSolver
 {
     public class Solver
     {
-        public static Node root = new('^');
-        public static List<string> foundWords = new List<string>();
+        private static readonly Node root = new('^');
+        private static readonly List<string> foundWords = new();
 
         #region Solver
 
@@ -30,7 +30,7 @@ namespace BoggleSolver
         {
             if (foundWords.Count == 0)
             {
-                MessageBox.Show("Could not found any words");
+                MessageBox.Show("Could not find any words");
             }
             else
             {

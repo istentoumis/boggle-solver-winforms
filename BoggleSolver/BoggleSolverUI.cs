@@ -108,35 +108,35 @@ namespace BoggleSolver
         {
             selectedWords = 10;
             Task.Run(async () => await OpenDictionary(filePath));
-            WriteRandomWordsToDictionary(filePath, selectedWords);
+            WriteRandomWordsToDictionary(filePath, selectedWords, board);
         }
 
         private void Button50Words_Click(object sender, EventArgs e)
         {
             selectedWords = 50;
             Task.Run(async () => await OpenDictionary(filePath));
-            WriteRandomWordsToDictionary(filePath, selectedWords);
+            WriteRandomWordsToDictionary(filePath, selectedWords, board);
         }
 
         private void Button100Words_Click(object sender, EventArgs e)
         {
             selectedWords = 100;
             Task.Run(async () => await OpenDictionary(filePath));
-            WriteRandomWordsToDictionary(filePath, selectedWords);
+            WriteRandomWordsToDictionary(filePath, selectedWords, board);
         }
 
         private void Button500Words_Click(object sender, EventArgs e)
         {
             selectedWords = 500;
             Task.Run(async () => await OpenDictionary(filePath));
-            WriteRandomWordsToDictionary(filePath, selectedWords);
+            WriteRandomWordsToDictionary(filePath, selectedWords, board);
         }
 
         private void Button1000Words_Click(object sender, EventArgs e)
         {
             selectedWords = 1000;
             Task.Run(async () => await OpenDictionary(filePath));
-            WriteRandomWordsToDictionary(filePath, selectedWords);
+            WriteRandomWordsToDictionary(filePath, selectedWords, board);
         }
 
         private void InstructionsButton_Click(object sender, EventArgs e)
@@ -204,21 +204,40 @@ namespace BoggleSolver
             return words.Length;
         }
 
-        private static void WriteRandomWordsToDictionary(string filePath, int selectedWords)
+        private static void WriteRandomWordsToDictionary(string filePath, int selectedWords, char[,] board)
         {
             string[] words = new string[selectedWords];
 
             for (int i = 0; i < selectedWords; i++)
             {
-                // Generate a random word (for simplicity, using a fixed set of words)
-                string word = "Word" + (i + 1);
+                string word = GenerateWordFromBoard(board, random);
 
-                // Append the word to the array
                 words[i] = word;
             }
 
-            // Write the words to the file
             File.WriteAllLines(filePath, words);
+        }
+
+        private static string GenerateWordFromBoard(char[,] board, Random random)
+        {
+            int rows = board.GetLength(0);
+            int cols = board.GetLength(1);
+
+            int wordLength = random.Next(1, 12);
+
+            char[] wordChars = new char[wordLength];
+
+            for (int j = 0; j < wordLength; j++)
+            {
+                // Generate random indices to select letters from the board
+                int row = random.Next(rows);
+                int col = random.Next(cols);
+
+                // Append the selected letter to the word
+                wordChars[j] = board[row, col];
+            }
+
+            return new string(wordChars);
         }
 
         private static void DeleteDictionaryContent(string filePath)

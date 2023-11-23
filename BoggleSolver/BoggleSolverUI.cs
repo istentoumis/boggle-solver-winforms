@@ -217,7 +217,9 @@ namespace BoggleSolver
                 words[i] = word;
             }
 
+            Array.Sort(words);
             File.WriteAllLines(filePath, words);
+
         }
 
         private static string GenerateWordFromBoard(char[,] board, Random random)

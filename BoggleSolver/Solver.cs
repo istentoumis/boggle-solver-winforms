@@ -34,9 +34,20 @@ namespace BoggleSolver
             }
             else
             {
-                string message = "The found words are:\n" + string.Join("\n", foundWords);
+                List<string> sortedWords = SortFoundWords(foundWords);
+                string message = "The found words are:\n" + string.Join("\n", sortedWords);
                 MessageBox.Show(message);
             }
+        }
+
+        private static List<string> SortFoundWords(List<string> foundWords)
+        {
+            List<string> sortedWords = foundWords
+                        .OrderBy(word => word)          
+                        .ThenBy(word => word.Length)    
+                        .ToList();
+
+            return sortedWords;
         }
 
         #endregion

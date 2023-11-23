@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Diagnostics;
+
+
 namespace BoggleSolver
 {
     public class Solver
     {
         private static readonly Node root = new('^');
         private static readonly List<string> foundWords = new();
+        private readonly Stopwatch stopWatch = new();
 
         #region Solver
 
-        public static void RunBoggleSolver(string[] dictionary, string filePath, char[,] board)
+        public void RunBoggleSolver(string[] dictionary, string filePath, char[,] board)
         {
+            stopWatch.Start();
             dictionary = GetWordsFromDictionary(filePath);
             BuildTrie(dictionary);
             FindWords(board);
@@ -26,7 +28,7 @@ namespace BoggleSolver
             return words;
         }
 
-        private static void PrintFoundWords()
+        private void PrintFoundWords()
         {
             if (foundWords.Count == 0)
             {
@@ -35,9 +37,12 @@ namespace BoggleSolver
             else
             {
                 List<string> sortedWords = SortFoundWords(foundWords);
-                string message = "The found words are:\n" + string.Join("\n", sortedWords);
-                MessageBox.Show(message);
+                stopWatch.Stop();
+                string message1 = "Execution Time: " + ((double)stopWatch.ElapsedMilliseconds / 1000).ToString("0.00000") + " sec.";
+                string message2 = "The found words are:\n" + string.Join("\n", sortedWords);
+                MessageBox.Show(message1 + "\n\n" + message2);
             }
+            stopWatch.Reset();
         }
 
         private static List<string> SortFoundWords(List<string> foundWords)

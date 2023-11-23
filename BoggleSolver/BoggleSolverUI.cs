@@ -1,7 +1,4 @@
-using BoggleSolver.Properties;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 
 namespace BoggleSolver
 {
@@ -14,7 +11,8 @@ namespace BoggleSolver
         private readonly static Random random = new();
         private int wordCount;
         private readonly InstructionsUI instructionsUI;
-        private static HashSet<string> existingWords = new HashSet<string>();
+        private static readonly HashSet<string> existingWords = new();
+        private Solver s = new Solver();
 
         public BoggleSolverUI()
         {
@@ -160,7 +158,7 @@ namespace BoggleSolver
             }
             else
             {
-                Solver.RunBoggleSolver(dictionary,filePath, board);
+                s.RunBoggleSolver(dictionary,filePath, board);
             }
         }
 

@@ -12,6 +12,6 @@ This WinForms application is a Boggle solver that reads a Boggle board configura
 ## Run the application
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/your-username/boggle-solver-winforms.git
+   git clone https://github.com/istentoumis/boggle-solver-winforms.git
    ```
 2. Build and run the application.   

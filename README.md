@@ -7,7 +7,7 @@ This WinForms application is a Boggle solver that reads a Boggle board configura
 - **Boggle Board:** The application generates a random Boggle board and displays it in a WinForms DataGridView.
 - **Dictionary:** Users can open, edit, and save the dictionary of words used for solving Boggle puzzles.
 - **Solver:** The solver uses a Trie data structure to efficiently find valid words on the Boggle board, via Depth-First Search(DFS) algorithm.
-- **User Interaction:** The user can refresh the Boggle board, choose the number of words to generate(or create a custom Dictionary with personalized words), and run the Boggle solver.
+- **User Interaction:** The user can refresh the Boggle board, choose the number of words to generate(or create a custom dictionary with personalized words), and run the Boggle solver.
 
 ## Run the application
 1. **Clone the Repository:**

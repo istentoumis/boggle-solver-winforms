@@ -10,5 +10,6 @@ This WinForms application is a Boggle solver that reads a Boggle board configura
 - **User Interaction:** The user can refresh the Boggle board, choose the number of words to generate(or create a custom dictionary with personalized words), and run the Boggle solver.
 
 ## Run the application
-**Clone the Repository:**
+1. **Clone the Repository:**
    git clone https://github.com/your-username/boggle-solver-winforms.git
+2. Build and run the application.   

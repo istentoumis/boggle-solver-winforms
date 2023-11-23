@@ -1,4 +1,5 @@
 using BoggleSolver.Properties;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
@@ -13,6 +14,7 @@ namespace BoggleSolver
         private readonly static Random random = new();
         private int wordCount;
         private readonly InstructionsUI instructionsUI;
+        private static HashSet<string> existingWords = new HashSet<string>();
 
         public BoggleSolverUI()
         {
@@ -194,35 +196,44 @@ namespace BoggleSolver
             }
         }
 
-        private static int CountWordsfromDictionary(string filePath)
-        {
-            // Read the contents of the file
-            string content = File.ReadAllText(filePath);
-
-            // Split the content into words using whitespace as separators
-            string[] words = content.Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-
-            // Count the number of words
-            return words.Length;
-        }
-
         private static void WriteRandomWordsToDictionary(string filePath, int selectedWords, char[,] board)
         {
             string[] words = new string[selectedWords];
 
             for (int i = 0; i < selectedWords; i++)
             {
-                string word = GenerateWordFromBoard(board, random);
-
+                string word = GenerateUniqueWord(board, existingWords);
                 words[i] = word;
             }
 
             Array.Sort(words);
             File.WriteAllLines(filePath, words);
+            existingWords.Clear();
 
         }
 
-        private static string GenerateWordFromBoard(char[,] board, Random random)
+        private static string GenerateUniqueWord(char[,] board, HashSet<string> existingWords)
+        {
+            string generatedWord = GenerateWordFromBoard(board, random, existingWords);
+
+            while (existingWords.Contains(generatedWord))
+            {
+                generatedWord = GenerateWordFromBoard(board, random, existingWords);
+            }
+
+            existingWords.Add(generatedWord);
+
+            return generatedWord;
+        }
+
+        private static int CountWordsfromDictionary(string filePath)
+        {
+            return File.ReadLines(filePath)
+               .SelectMany(line => line.Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries))
+               .Count();
+        }
+
+        private static string GenerateWordFromBoard(char[,] board, Random random, HashSet<string> existingWords)
         {
             int rows = board.GetLength(0);
             int cols = board.GetLength(1);
